@@ -1068,8 +1068,8 @@
             
             <div class="header-actions">
                 <div class="action-btn create" onclick="openCreateStoreModal()">
-                    <i class="fas fa-plus"></i>
-                    <span>إنشاء متجر</span>
+                    <i class="fas fa-magic"></i>
+                    <span>إنشاء فوري</span>
                 </div>
                 <div class="action-btn" onclick="scrollToStores()" title="المتاجر">
                     <i class="fas fa-store"></i>
@@ -1090,14 +1090,14 @@
         <section class="hero-section">
             <h1 class="hero-title">🏪 منصة كلاشي لإنشاء المتاجر</h1>
             <p class="hero-subtitle">
-                أنشئ متجرك الإلكتروني بنفس مميزات مكتب الغدير في دقائق!
-                إدارة كاملة للمنتجات، سلة التسوق، الطلبات عبر واتساب وأكثر.
+                أنشئ متجرك الإلكتروني في ثوانٍ! جميع الحقول اختيارية، فقط اضغط "إنشاء" وستحصل على متجر جاهز بقيم افتراضية ذكية. 
+                يمكنك تخصيص كل شيء لاحقاً.
             </p>
             
             <div class="hero-cta">
                 <button class="cta-btn primary" onclick="openCreateStoreModal()">
                     <i class="fas fa-rocket"></i>
-                    إنشاء متجري الآن
+                    إنشاء متجر في ثوانٍ
                 </button>
                 <button class="cta-btn secondary" onclick="scrollToFeatures()">
                     <i class="fas fa-info-circle"></i>
@@ -1111,6 +1111,14 @@
             <h2 class="section-title">🌟 مميزات منصة كلاشي</h2>
             
             <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-magic feature-icon"></i>
+                    <h3 class="feature-title">إنشاء فوري ذكي</h3>
+                    <p class="feature-description">
+                        جميع الحقول اختيارية! النظام يملأ القيم الفارغة بقيم افتراضية ذكية ويمكنك تعديلها لاحقاً
+                    </p>
+                </div>
+                
                 <div class="feature-card">
                     <i class="fas fa-mobile-alt feature-icon"></i>
                     <h3 class="feature-title">متجر متكامل</h3>
@@ -1168,9 +1176,9 @@
             <div class="stores-grid" id="storesGrid">
                 <!-- Create Store Card -->
                 <div class="create-store-card" onclick="openCreateStoreModal()">
-                    <i class="fas fa-plus create-store-icon"></i>
-                    <div class="create-store-text">إنشاء متجر جديد</div>
-                    <div class="create-store-description">ابدأ في إنشاء متجرك الإلكتروني الآن</div>
+                    <i class="fas fa-magic create-store-icon"></i>
+                    <div class="create-store-text">إنشاء متجر فوري</div>
+                    <div class="create-store-description">اضغط هنا لإنشاء متجرك في ثوانٍ - جميع الحقول اختيارية!</div>
                 </div>
                 
                 <!-- Existing stores will be loaded here -->
@@ -1190,8 +1198,8 @@
                 <span class="nav-label">المتاجر</span>
             </div>
             <div class="nav-item" onclick="openCreateStoreModal()">
-                <i class="fas fa-plus nav-icon"></i>
-                <span class="nav-label">إنشاء متجر</span>
+                <i class="fas fa-magic nav-icon"></i>
+                <span class="nav-label">إنشاء فوري</span>
             </div>
             <div class="nav-item" onclick="showContact()">
                 <i class="fas fa-phone nav-icon"></i>
@@ -1213,42 +1221,51 @@
                 </button>
             </div>
             
+            <div style="background: var(--glass); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: var(--space-3); margin-bottom: var(--space-4); text-align: center;">
+                <h4 style="color: var(--success-solid); margin-bottom: var(--space-2);">
+                    <i class="fas fa-magic"></i> إنشاء فوري وسهل
+                </h4>
+                <p style="color: var(--gray-300); font-size: var(--font-sm); line-height: 1.5;">
+                    💡 <strong>جميع الحقول اختيارية!</strong> اتركها فارغة وسنملأها بقيم افتراضية ذكية. 
+                    يمكنك تعديل كل شيء لاحقاً في متجرك.
+                </p>
+            </div>
+            
             <form id="createStoreForm" onsubmit="handleCreateStore(event)">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label class="form-label">اسم المتجر *</label>
-                        <input type="text" class="form-input" id="storeName" required placeholder="مثل: متجر الأزياء العصرية">
+                        <label class="form-label">اسم المتجر</label>
+                        <input type="text" class="form-input" id="storeName" placeholder="مثل: متجر الأزياء العصرية (اختياري)">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">اختصار المتجر *</label>
-                        <input type="text" class="form-input" id="storeSlug" required placeholder="مثل: fashion-store" pattern="[a-z0-9-]+" title="أحرف إنجليزية صغيرة وأرقام وشرطات فقط">
+                        <label class="form-label">اختصار المتجر</label>
+                        <input type="text" class="form-input" id="storeSlug" placeholder="سيتم إنشاؤه تلقائياً (اختياري)" pattern="[a-z0-9-]+">
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">وصف المتجر *</label>
-                    <textarea class="form-textarea" id="storeDescription" required rows="3" placeholder="وصف مختصر عن متجرك ونوع المنتجات التي تبيعها"></textarea>
+                    <label class="form-label">وصف المتجر</label>
+                    <textarea class="form-textarea" id="storeDescription" rows="3" placeholder="وصف مختصر عن متجرك ونوع المنتجات (اختياري)"></textarea>
                 </div>
                 
                 <div class="form-grid">
                     <div class="form-group">
-                        <label class="form-label">رقم الواتساب *</label>
-                        <input type="tel" class="form-input" id="storeWhatsapp" required placeholder="9647xxxxxxxx" pattern="[0-9]{12,15}">
+                        <label class="form-label">رقم الواتساب</label>
+                        <input type="tel" class="form-input" id="storeWhatsapp" placeholder="9647xxxxxxxx (اختياري)">
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">رقم الهاتف *</label>
-                        <input type="tel" class="form-input" id="storePhone" required placeholder="07xxxxxxxx">
+                        <label class="form-label">رقم الهاتف</label>
+                        <input type="tel" class="form-input" id="storePhone" placeholder="07xxxxxxxx (اختياري)">
                     </div>
                 </div>
                 
                 <div class="form-grid">
                     <div class="form-group">
-                        <label class="form-label">لون المتجر *</label>
-                        <select class="form-select" id="storeColor" required>
-                            <option value="">اختر اللون</option>
-                            <option value="primary">🟣 بنفسجي</option>
+                        <label class="form-label">لون المتجر</label>
+                        <select class="form-select" id="storeColor">
+                            <option value="primary" selected>🟣 بنفسجي (افتراضي)</option>
                             <option value="secondary">🔵 أزرق</option>
                             <option value="success">🟢 أخضر</option>
                             <option value="accent">🟡 أصفر</option>
@@ -1262,16 +1279,16 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">المدينة *</label>
-                        <input type="text" class="form-input" id="storeCity" required placeholder="بغداد">
+                        <label class="form-label">المدينة</label>
+                        <input type="text" class="form-input" id="storeCity" placeholder="بغداد (افتراضي)">
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">التصنيفات الرئيسية *</label>
-                    <select class="form-select" id="storeCategories" multiple required>
-                        <option value="phones">📱 الهواتف الذكية</option>
-                        <option value="accessories">🎧 الإكسسوارات</option>
+                    <label class="form-label">التصنيفات الرئيسية</label>
+                    <select class="form-select" id="storeCategories" multiple>
+                        <option value="phones" selected>📱 الهواتف الذكية</option>
+                        <option value="accessories" selected>🎧 الإكسسوارات</option>
                         <option value="clothing">👕 الملابس</option>
                         <option value="shoes">👟 الأحذية</option>
                         <option value="bags">👜 الحقائب</option>
@@ -1287,7 +1304,9 @@
                         <option value="food">🍕 الطعام</option>
                         <option value="gifts">🎁 الهدايا</option>
                     </select>
-                    <small style="color: var(--gray-400); margin-top: var(--space-1); display: block;">اضغط Ctrl لتحديد عدة تصنيفات</small>
+                    <small style="color: var(--gray-400); margin-top: var(--space-1); display: block;">
+                        محدد افتراضياً: الهواتف والإكسسوارات (يمكن تغييره)
+                    </small>
                 </div>
                 
                 <div class="form-group">
@@ -1296,8 +1315,8 @@
                 </div>
                 
                 <button type="submit" class="btn btn-primary w-full">
-                    <i class="fas fa-rocket"></i>
-                    إنشاء المتجر الآن
+                    <i class="fas fa-magic"></i>
+                    إنشاء المتجر فوراً ⚡
                 </button>
             </form>
         </div>
@@ -1818,52 +1837,40 @@ CREATE TRIGGER update_stats_on_message_change
                 // Get form data safely
                 const formData = new FormData(event.target);
                 
-                // Helper function to safely get and trim form values
-                const safeGetValue = (key) => {
+                // Helper function to safely get and trim form values with defaults
+                const safeGetValue = (key, defaultValue = '') => {
                     const value = formData.get(key);
-                    return value ? value.toString().trim() : '';
+                    return value ? value.toString().trim() : defaultValue;
                 };
                 
+                // Generate random slug if not provided
+                const generateRandomSlug = () => {
+                    return 'store-' + Math.random().toString(36).substring(2, 8) + '-' + Date.now().toString(36);
+                };
+                
+                // Get form values with smart defaults
+                const storeName = safeGetValue('storeName') || 'متجري الجديد';
+                const storeSlug = safeGetValue('storeSlug') || generateRandomSlug();
+                const cleanSlug = storeSlug.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+                
                 const storeData = {
-                    name: safeGetValue('storeName'),
-                    slug: safeGetValue('storeSlug').toLowerCase(),
-                    description: safeGetValue('storeDescription'),
-                    owner_phone: safeGetValue('storePhone'),
-                    whatsapp_number: safeGetValue('storeWhatsapp'),
-                    city: safeGetValue('storeCity'),
-                    color: safeGetValue('storeColor'),
+                    name: storeName,
+                    slug: cleanSlug || generateRandomSlug(),
+                    description: safeGetValue('storeDescription') || `متجر إلكتروني متطور - ${storeName}`,
+                    owner_phone: safeGetValue('storePhone') || '07800000000',
+                    whatsapp_number: safeGetValue('storeWhatsapp') || '9647800000000',
+                    city: safeGetValue('storeCity') || 'بغداد',
+                    color: safeGetValue('storeColor') || 'primary',
                     categories: Array.from(document.getElementById('storeCategories').selectedOptions).map(option => option.value),
                     instagram_url: safeGetValue('storeInstagram') || null
                 };
                 
-                // Validate required fields
-                if (!storeData.name || !storeData.slug || !storeData.description || 
-                    !storeData.owner_phone || !storeData.whatsapp_number || 
-                    !storeData.city || !storeData.color || storeData.categories.length === 0) {
-                    showNotification('❌ يرجى ملء جميع الحقول المطلوبة', 'error');
-                    hideLoadingOverlay();
-                    return;
+                // Set default categories if none selected
+                if (storeData.categories.length === 0) {
+                    storeData.categories = ['phones', 'accessories'];
                 }
                 
-                // Validate slug format
-                if (!/^[a-z0-9-]+$/.test(storeData.slug)) {
-                    showNotification('❌ اختصار المتجر يجب أن يحتوي على أحرف إنجليزية صغيرة وأرقام وشرطات فقط', 'error');
-                    hideLoadingOverlay();
-                    return;
-                }
-                
-                // Validate phone numbers
-                if (!/^\d{10,15}$/.test(storeData.owner_phone.replace(/\D/g, ''))) {
-                    showNotification('❌ رقم الهاتف غير صحيح', 'error');
-                    hideLoadingOverlay();
-                    return;
-                }
-                
-                if (!/^\d{12,15}$/.test(storeData.whatsapp_number.replace(/\D/g, ''))) {
-                    showNotification('❌ رقم الواتساب غير صحيح (يجب أن يبدأ بـ 964)', 'error');
-                    hideLoadingOverlay();
-                    return;
-                }
+                console.log('📝 بيانات المتجر المُرسلة:', storeData);
                 
                 // Check if slug is unique
                 const { data: existingStore } = await supabase
@@ -1909,15 +1916,15 @@ CREATE TRIGGER update_stats_on_message_change
                 closeModal('createStoreModal');
                 document.getElementById('createStoreForm').reset();
                 
-                showNotification(`🎉 تم إنشاء متجر "${newStore.name}" بنجاح!`);
+                showNotification(`🎉 تم إنشاء متجر "${newStore.name}" بنجاح في ثوانٍ!`);
                 
                 // Show store link
                 setTimeout(() => {
                     const storeUrl = `./store.html?store=${newStore.slug}`;
-                    showNotification(`🔗 رابط متجرك: ${storeUrl}`);
+                    showNotification(`🔗 رابط متجرك الجديد: ${storeUrl}`);
                     
                     // Option to open the store
-                    if (confirm(`هل تريد فتح متجرك الجديد "${newStore.name}" الآن؟`)) {
+                    if (confirm(`🎉 تم إنشاء متجرك "${newStore.name}" بنجاح!\n\nهل تريد فتح متجرك الجديد الآن؟`)) {
                         window.open(storeUrl, '_blank');
                     }
                 }, 2000);
@@ -2113,17 +2120,17 @@ CREATE TRIGGER update_stats_on_message_change
             }
         });
 
-        // Validate WhatsApp number format
+        // Helpful input validation (optional suggestions, not blocking)
         document.getElementById('storeWhatsapp').addEventListener('input', function(e) {
-            const whatsapp = e.target.value.replace(/\D/g, ''); // Remove non-digits
+            const whatsapp = e.target.value.replace(/\D/g, '');
             
             if (whatsapp.length > 0) {
                 if (whatsapp.startsWith('964') && whatsapp.length >= 12 && whatsapp.length <= 15) {
                     e.target.style.borderColor = 'var(--success-solid)';
-                    e.target.title = 'رقم واتساب صحيح';
-                } else {
-                    e.target.style.borderColor = 'var(--error-solid)';
-                    e.target.title = 'رقم الواتساب يجب أن يبدأ بـ 964 ويكون بين 12-15 رقم';
+                    e.target.title = '✅ رقم واتساب صحيح';
+                } else if (whatsapp.length > 0) {
+                    e.target.style.borderColor = 'var(--accent-solid)';
+                    e.target.title = '💡 نصيحة: الأفضل أن يبدأ بـ 964';
                 }
             } else {
                 e.target.style.borderColor = '';
@@ -2131,17 +2138,17 @@ CREATE TRIGGER update_stats_on_message_change
             }
         });
 
-        // Validate phone number format
+        // Helpful phone validation (suggestions only)
         document.getElementById('storePhone').addEventListener('input', function(e) {
             const phone = e.target.value.replace(/\D/g, '');
             
             if (phone.length > 0) {
                 if (phone.startsWith('07') && phone.length === 11) {
                     e.target.style.borderColor = 'var(--success-solid)';
-                    e.target.title = 'رقم هاتف صحيح';
-                } else {
-                    e.target.style.borderColor = 'var(--error-solid)';
-                    e.target.title = 'رقم الهاتف يجب أن يبدأ بـ 07 ويكون 11 رقم';
+                    e.target.title = '✅ رقم هاتف صحيح';
+                } else if (phone.length > 0) {
+                    e.target.style.borderColor = 'var(--accent-solid)';
+                    e.target.title = '💡 نصيحة: الأفضل أن يبدأ بـ 07';
                 }
             } else {
                 e.target.style.borderColor = '';
@@ -2149,52 +2156,63 @@ CREATE TRIGGER update_stats_on_message_change
             }
         });
 
-        // Real-time form validation
-        function validateForm() {
-            const requiredFields = [
-                'storeName', 'storeSlug', 'storeDescription', 
-                'storeWhatsapp', 'storePhone', 'storeCity', 'storeColor'
-            ];
+        // Real-time form preview (optional)
+        function updateFormPreview() {
+            const storeName = document.getElementById('storeName').value || 'متجري الجديد';
+            const storeCity = document.getElementById('storeCity').value || 'بغداد';
+            const storeColor = document.getElementById('storeColor').value || 'primary';
             
-            let isValid = true;
-            
-            requiredFields.forEach(fieldId => {
-                const field = document.getElementById(fieldId);
-                const value = field.value?.trim() || '';
-                
-                if (!value) {
-                    isValid = false;
-                }
-            });
-            
-            // Check categories
-            const categories = document.getElementById('storeCategories').selectedOptions;
-            if (categories.length === 0) {
-                isValid = false;
-            }
-            
-            // Update submit button state
-            const submitBtn = document.querySelector('#createStoreForm button[type="submit"]');
-            if (submitBtn) {
-                submitBtn.disabled = !isValid;
-                submitBtn.style.opacity = isValid ? '1' : '0.5';
-            }
-            
-            return isValid;
+            // Update preview text if needed
+            console.log(`📋 معاينة المتجر: ${storeName} - ${storeCity} - لون: ${storeColor}`);
         }
 
-        // Add form validation listeners
+        // Form auto-improvement
+        function improveFormInput(input) {
+            if (!input.value.trim()) return;
+            
+            switch(input.id) {
+                case 'storeName':
+                    // Auto-capitalize store name
+                    const words = input.value.split(' ');
+                    const capitalizedWords = words.map(word => 
+                        word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                    );
+                    input.value = capitalizedWords.join(' ');
+                    break;
+                    
+                case 'storeWhatsapp':
+                    // Auto-format WhatsApp number
+                    let whatsapp = input.value.replace(/\D/g, '');
+                    if (whatsapp.length > 0 && !whatsapp.startsWith('964')) {
+                        if (whatsapp.startsWith('07')) {
+                            whatsapp = '964' + whatsapp.substring(1);
+                        }
+                    }
+                    input.value = whatsapp;
+                    break;
+                    
+                case 'storeCity':
+                    // Auto-capitalize city name
+                    input.value = input.value.charAt(0).toUpperCase() + input.value.slice(1).toLowerCase();
+                    break;
+            }
+        }
+
+        // Add improved form listeners
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('createStoreForm');
             if (form) {
                 const inputs = form.querySelectorAll('input, select, textarea');
                 inputs.forEach(input => {
-                    input.addEventListener('input', validateForm);
-                    input.addEventListener('change', validateForm);
+                    input.addEventListener('input', updateFormPreview);
+                    input.addEventListener('change', updateFormPreview);
+                    input.addEventListener('blur', () => improveFormInput(input));
                 });
                 
-                // Initial validation
-                setTimeout(validateForm, 100);
+                // Show helpful message
+                setTimeout(() => {
+                    showNotification('✨ نصيحة: اضغط "إنشاء فوري" مباشرة - جميع الحقول اختيارية!');
+                }, 2000);
             }
         });
 
@@ -2306,12 +2324,14 @@ CREATE TRIGGER update_stats_on_message_change
         // Console logs
         console.log('🚀 منصة كلاشي لإنشاء المتاجر جاهزة!');
         console.log('🏪 إنشاء متاجر بنفس مميزات مكتب الغدير');
+        console.log('✨ جديد: جميع الحقول اختيارية مع قيم افتراضية ذكية');
         console.log('📱 قاعدة بيانات منفصلة لكل متجر');
         console.log('🛍️ إدارة كاملة للمنتجات والطلبات');
         console.log('💬 ربط مباشر بواتساب لكل متجر');
         console.log('🎨 تخصيص كامل للألوان والتصنيفات');
         console.log('📊 إحصائيات متقدمة لكل متجر');
         console.log('☁️ حفظ سحابي آمن مع Supabase');
+        console.log('⚡ إنشاء فوري في ثوانٍ معدودة');
     </script>
 </body>
 </html>
