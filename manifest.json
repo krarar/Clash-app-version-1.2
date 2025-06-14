@@ -2,46 +2,43 @@
   "name": "كلاشي - السوق الإلكتروني الشامل",
   "short_name": "كلاشي",
   "description": "سوق إلكتروني شامل يجمع أفضل المتاجر والمنتجات في مكان واحد",
-  "version": "1.0.0",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "theme_color": "#8B5CF6",
   "background_color": "#0F172A",
+  "theme_color": "#8B5CF6",
+  "orientation": "portrait-primary",
+  "scope": "/",
   "lang": "ar",
   "dir": "rtl",
-  
+  "categories": ["shopping", "business", "productivity"],
+  "screenshots": [
+    {
+      "src": "https://via.placeholder.com/540x720/8B5CF6/FFFFFF?text=كلاشي+الرئيسية",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "الشاشة الرئيسية لكلاشي"
+    },
+    {
+      "src": "https://via.placeholder.com/720x540/06B6D4/FFFFFF?text=كلاشي+المتاجر",
+      "sizes": "720x540",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "صفحة المتاجر"
+    }
+  ],
   "icons": [
     {
       "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "72x72",
+      "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any"
     },
     {
       "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "96x96",
+      "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any"
     },
     {
       "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
@@ -51,99 +48,20 @@
     },
     {
       "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    },
-    {
-      "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
     }
   ],
-  
-  "screenshots": [
-    {
-      "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "الواجهة الرئيسية لكلاشي على الحاسوب"
-    },
-    {
-      "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "واجهة كلاشي على الهاتف المحمول"
-    }
-  ],
-  
-  "categories": [
-    "shopping",
-    "business",
-    "lifestyle",
-    "productivity"
-  ],
-  
   "shortcuts": [
     {
-      "name": "المنتجات",
-      "short_name": "منتجات",
-      "description": "عرض جميع المنتجات المتاحة",
-      "url": "/#products",
+      "name": "المنتجات المميزة",
+      "short_name": "المنتجات",
+      "description": "تصفح أحدث المنتجات",
+      "url": "/?view=products",
       "icons": [
         {
-          "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
+          "src": "https://via.placeholder.com/96x96/8B5CF6/FFFFFF?text=📦",
           "sizes": "96x96"
         }
       ]
@@ -151,105 +69,50 @@
     {
       "name": "المتاجر",
       "short_name": "متاجر",
-      "description": "استكشاف المتاجر المختلفة",
-      "url": "/#stores",
+      "description": "استعرض جميع المتاجر",
+      "url": "/?view=stores",
       "icons": [
         {
-          "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
+          "src": "https://via.placeholder.com/96x96/06B6D4/FFFFFF?text=🏪",
           "sizes": "96x96"
         }
       ]
     },
     {
-      "name": "الحجامي",
-      "short_name": "الحجامي",
-      "description": "متجر محلات الحجامي للمنسوجات",
-      "url": "/alhajami.html",
+      "name": "إنشاء متجر جديد",
+      "short_name": "متجر جديد",
+      "description": "أنشئ متجرك الخاص",
+      "url": "/?action=create-store",
       "icons": [
         {
-          "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
+          "src": "https://via.placeholder.com/96x96/10B981/FFFFFF?text=➕",
           "sizes": "96x96"
         }
       ]
     },
     {
-      "name": "الغدير",
-      "short_name": "الغدير",
-      "description": "مكتب الغدير للهواتف والإلكترونيات",
-      "url": "/Al Ghadeer Office.html",
+      "name": "سلة التسوق",
+      "short_name": "السلة",
+      "description": "عرض سلة التسوق",
+      "url": "/?view=cart",
       "icons": [
         {
-          "src": "https://wgvkbrmcgejscgsyapcs.supabase.co/storage/v1/object/public/images//Clashy.png",
+          "src": "https://via.placeholder.com/96x96/F59E0B/FFFFFF?text=🛒",
           "sizes": "96x96"
         }
       ]
     }
   ],
-  
-  "related_applications": [
-    {
-      "platform": "webapp",
-      "url": "https://clashy.iq/manifest.json"
-    }
-  ],
-  
   "prefer_related_applications": false,
-  
+  "related_applications": [],
   "edge_side_panel": {
     "preferred_width": 400
   },
-  
-  "launch_handler": {
-    "client_mode": "navigate-existing"
-  },
-  
-  "handle_links": "preferred",
-  
-  "capture_links": "existing-client-navigate",
-  
-  "share_target": {
-    "action": "/share-target/",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url",
-      "files": [
-        {
-          "name": "files",
-          "accept": ["image/*", "text/*"]
-        }
-      ]
-    }
-  },
-  
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "protocol_handlers": [
     {
       "protocol": "web+clashy",
-      "url": "/?handler=%s"
+      "url": "/?product=%s"
     }
-  ],
-  
-  "file_handlers": [
-    {
-      "action": "/handle-file",
-      "accept": {
-        "image/*": [".jpg", ".jpeg", ".png", ".webp", ".gif"],
-        "text/plain": [".txt"],
-        "application/json": [".json"]
-      }
-    }
-  ],
-  
-  "display_override": [
-    "window-controls-overlay",
-    "minimal-ui",
-    "standalone",
-    "fullscreen"
-  ],
-  
-  "id": "clashy-pwa-iraq",
-  
-  "iarc_rating_id": "e58c174a-81d2-5c3c-32cc-34b8de4a52e9"
+  ]
 }
