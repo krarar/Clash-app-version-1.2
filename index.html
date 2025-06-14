@@ -53,8 +53,10 @@
             --teal-solid: #0D9488;
             --violet: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
             --violet-solid: #7C3AED;
-            
-            /* Dark Theme */
+        }
+
+        /* Dark Theme (Default) */
+        [data-theme="dark"] {
             --bg-primary: #0F172A;
             --bg-secondary: #1E293B;
             --bg-tertiary: #334155;
@@ -65,8 +67,24 @@
             --glass: rgba(255, 255, 255, 0.08);
             --glass-border: rgba(255, 255, 255, 0.15);
             --glass-strong: rgba(255, 255, 255, 0.12);
-            
-            /* Mobile Optimized Sizes */
+        }
+
+        /* Light Theme */
+        [data-theme="light"] {
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8FAFC;
+            --bg-tertiary: #F1F5F9;
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            --text-muted: #64748B;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --glass: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --glass-strong: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Mobile Optimized Sizes */
+        :root {
             --font-xs: 0.6rem;
             --font-sm: 0.7rem;
             --font-base: 0.8rem;
@@ -119,6 +137,7 @@
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            transition: all var(--transition-base);
         }
 
         /* Enhanced Background Effects */
@@ -149,7 +168,7 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(var(--bg-primary-rgb, 15, 23, 42), 0.95);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
             z-index: 1000;
@@ -158,10 +177,20 @@
             transition: all var(--transition-base);
         }
 
+        [data-theme="light"] .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom-color: var(--border-color);
+        }
+
         .header.scrolled {
-            background: rgba(15, 23, 42, 0.98);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            background: rgba(var(--bg-primary-rgb, 15, 23, 42), 0.98);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             height: 50px;
+        }
+
+        [data-theme="light"] .header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .header-content {
@@ -252,6 +281,10 @@
             background: var(--indigo);
         }
 
+        .action-btn.theme {
+            background: var(--secondary);
+        }
+
         /* Sidebar */
         .sidebar {
             position: fixed;
@@ -259,12 +292,16 @@
             right: -100vw;
             width: 100vw;
             height: 100vh;
-            background: rgba(15, 23, 42, 0.98);
+            background: rgba(var(--bg-primary-rgb, 15, 23, 42), 0.98);
             backdrop-filter: blur(20px);
             z-index: 1001;
             transition: right var(--transition-slow);
             overflow-y: auto;
-            box-shadow: var(--shadow-2xl);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        [data-theme="light"] .sidebar {
+            background: rgba(255, 255, 255, 0.98);
         }
 
         .sidebar.open {
@@ -366,6 +403,24 @@
             border-color: var(--primary-solid);
         }
 
+        /* Badge for notifications */
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--error);
+            color: white;
+            border-radius: var(--radius-full);
+            padding: var(--space-1) var(--space-2);
+            font-size: var(--font-xs);
+            font-weight: 700;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         /* Main Content */
         .main-content {
             margin-top: 55px;
@@ -403,6 +458,10 @@
             outline: none;
         }
 
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
         .search-input:focus {
             border-color: var(--primary-solid);
             box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
@@ -417,14 +476,15 @@
             pointer-events: none;
         }
 
-        /* Compact Products Section */
-        .products-section {
-            padding: 0 var(--space-2);
-        }
-
+        /* Section Headers */
         .section-header {
             margin-bottom: var(--space-4);
             padding: 0 var(--space-2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space-2);
         }
 
         .section-title {
@@ -434,13 +494,38 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: var(--space-1);
         }
 
         .section-subtitle {
             font-size: var(--font-sm);
             color: var(--text-secondary);
             font-weight: 400;
+            margin-top: var(--space-1);
+        }
+
+        .view-all-btn {
+            padding: var(--space-2) var(--space-3);
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            color: var(--primary-solid);
+            text-decoration: none;
+            font-size: var(--font-xs);
+            font-weight: 600;
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+
+        .view-all-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Products Section */
+        .products-section {
+            padding: 0 var(--space-2);
+            margin-bottom: var(--space-8);
         }
 
         .products-grid {
@@ -577,6 +662,232 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
+        /* Stores Section */
+        .stores-section {
+            padding: 0 var(--space-2);
+            margin-bottom: var(--space-8);
+        }
+
+        .stores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .store-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            transition: all var(--transition-smooth);
+            cursor: pointer;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .store-card:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.2);
+            border-color: var(--primary-solid);
+        }
+
+        .store-header {
+            background: var(--primary);
+            height: 60%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .store-header.textiles { background: var(--orange); }
+        .store-header.electronics { background: var(--indigo); }
+        .store-header.fashion { background: var(--pink); }
+        .store-header.home { background: var(--emerald); }
+        .store-header.food { background: var(--accent); }
+        .store-header.books { background: var(--violet); }
+        .store-header.cars { background: var(--teal); }
+        .store-header.gaming { background: var(--error); }
+
+        .store-icon {
+            font-size: 2rem;
+            color: white;
+            z-index: 2;
+        }
+
+        .store-content {
+            padding: var(--space-3);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .store-name {
+            font-size: var(--font-sm);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+            line-height: 1.3;
+        }
+
+        .store-description {
+            font-size: var(--font-xs);
+            color: var(--text-muted);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Favorites & Cart */
+        .favorites-section, .cart-section {
+            padding: 0 var(--space-2);
+            margin-bottom: var(--space-8);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--space-10);
+            color: var(--text-muted);
+        }
+
+        .empty-state i {
+            font-size: var(--font-4xl);
+            margin-bottom: var(--space-4);
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: var(--font-lg);
+            margin-bottom: var(--space-2);
+            color: var(--text-secondary);
+        }
+
+        .empty-state p {
+            font-size: var(--font-sm);
+            margin-bottom: var(--space-4);
+        }
+
+        .empty-state-btn {
+            padding: var(--space-3) var(--space-5);
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-2xl);
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 600;
+            font-size: var(--font-sm);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .empty-state-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Cart Item */
+        .cart-item {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-3);
+            margin-bottom: var(--space-3);
+            display: flex;
+            gap: var(--space-3);
+            align-items: center;
+            transition: all var(--transition-base);
+        }
+
+        .cart-item:hover {
+            background: var(--glass-strong);
+            transform: translateX(-2px);
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-lg);
+            object-fit: cover;
+            background: var(--bg-secondary);
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-size: var(--font-sm);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+        }
+
+        .cart-item-price {
+            font-size: var(--font-xs);
+            color: var(--primary-solid);
+            font-weight: 600;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-top: var(--space-2);
+        }
+
+        .quantity-btn {
+            width: 25px;
+            height: 25px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--glass-border);
+            background: var(--glass);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: var(--font-xs);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-base);
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .quantity-display {
+            font-size: var(--font-sm);
+            font-weight: 600;
+            color: var(--text-primary);
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .cart-item-remove {
+            color: var(--error-solid);
+            cursor: pointer;
+            padding: var(--space-2);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-base);
+        }
+
+        .cart-item-remove:hover {
+            background: var(--error);
+            color: white;
+        }
+
         /* Create Store Modal */
         .modal {
             position: fixed;
@@ -599,7 +910,7 @@
         }
 
         .modal-content {
-            background: rgba(15, 23, 42, 0.95);
+            background: var(--bg-primary);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-3xl);
@@ -776,12 +1087,16 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(var(--bg-primary-rgb, 15, 23, 42), 0.95);
             backdrop-filter: blur(20px);
             border-top: 1px solid var(--glass-border);
             padding: var(--space-2) 0;
             z-index: 1000;
             height: 60px;
+        }
+
+        [data-theme="light"] .bottom-nav {
+            background: rgba(255, 255, 255, 0.95);
         }
 
         .nav-container {
@@ -805,6 +1120,7 @@
             cursor: pointer;
             min-width: 50px;
             text-align: center;
+            position: relative;
         }
 
         .nav-item.active {
@@ -834,13 +1150,17 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(var(--bg-primary-rgb, 15, 23, 42), 0.9);
             backdrop-filter: blur(10px);
             z-index: 2000;
             display: none;
             align-items: center;
             justify-content: center;
             flex-direction: column;
+        }
+
+        [data-theme="light"] .loading-overlay {
+            background: rgba(255, 255, 255, 0.9);
         }
 
         .loading-overlay.active {
@@ -900,6 +1220,53 @@
 
         .notification.warning {
             background: var(--accent);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3);
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-3);
+            transition: all var(--transition-base);
+        }
+
+        .theme-toggle:hover {
+            background: var(--glass-strong);
+        }
+
+        .theme-switch {
+            position: relative;
+            width: 50px;
+            height: 25px;
+            background: var(--text-muted);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .theme-switch.active {
+            background: var(--primary-solid);
+        }
+
+        .theme-switch::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 21px;
+            height: 21px;
+            background: white;
+            border-radius: 50%;
+            transition: all var(--transition-base);
+        }
+
+        .theme-switch.active::before {
+            transform: translateX(25px);
         }
 
         /* Animations */
@@ -966,6 +1333,11 @@
                 gap: var(--space-2);
             }
 
+            .stores-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--space-2);
+            }
+
             .product-card {
                 border-radius: var(--radius-xl);
             }
@@ -985,7 +1357,7 @@
                 padding: 0 var(--space-1);
             }
 
-            .products-section {
+            .products-section, .stores-section {
                 padding: 0 var(--space-1);
             }
         }
@@ -1005,9 +1377,51 @@
                 font-size: var(--font-xs);
             }
         }
+
+        /* Additional Components */
+        .stats-section {
+            padding: 0 var(--space-2);
+            margin-bottom: var(--space-6);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .stat-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-3);
+            text-align: center;
+            transition: all var(--transition-base);
+        }
+
+        .stat-card:hover {
+            background: var(--glass-strong);
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: var(--font-lg);
+            font-weight: 700;
+            background: var(--secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-1);
+        }
+
+        .stat-label {
+            font-size: var(--font-xs);
+            color: var(--text-muted);
+            font-weight: 600;
+        }
     </style>
 </head>
-<body>
+<body data-theme="dark">
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
@@ -1027,6 +1441,9 @@
             <div class="header-actions">
                 <div class="action-btn search" onclick="focusSearch()" title="البحث">
                     <i class="fas fa-search"></i>
+                </div>
+                <div class="action-btn theme" onclick="toggleTheme()" title="تبديل الوضع">
+                    <i class="fas fa-sun" id="themeIcon"></i>
                 </div>
                 <div class="action-btn add" onclick="createNewStore()" title="إضافة متجر">
                     <i class="fas fa-plus"></i>
@@ -1048,6 +1465,16 @@
         </div>
         
         <div class="sidebar-content">
+            <!-- Theme Toggle -->
+            <div class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-palette"></i>
+                <div style="flex: 1;">
+                    <div style="font-weight: 600; font-size: var(--font-sm);">الوضع الحالي</div>
+                    <div style="font-size: var(--font-xs); color: var(--text-muted);" id="themeStatus">وضع مظلم</div>
+                </div>
+                <div class="theme-switch active" id="themeSwitch"></div>
+            </div>
+
             <!-- Navigation -->
             <div class="sidebar-section">
                 <h3 class="sidebar-section-title">
@@ -1062,14 +1489,17 @@
                 <div class="nav-option" onclick="showStoresSection(); closeSidebar();">
                     <i class="fas fa-store"></i>
                     <span>المتاجر</span>
+                    <span class="badge" id="storesCount">0</span>
                 </div>
                 <div class="nav-option" onclick="showFavorites(); closeSidebar();">
                     <i class="fas fa-heart"></i>
                     <span>المفضلة</span>
+                    <span class="badge" id="favoritesCount">0</span>
                 </div>
                 <div class="nav-option" onclick="showCart(); closeSidebar();">
                     <i class="fas fa-shopping-cart"></i>
                     <span>سلة التسوق</span>
+                    <span class="badge" id="cartCount">0</span>
                 </div>
             </div>
 
@@ -1131,7 +1561,7 @@
             <div class="sidebar-section">
                 <h3 class="sidebar-section-title">
                     <i class="fas fa-cog"></i>
-                    الإعدادات
+                    الإعدادات والدعم
                 </h3>
                 
                 <div class="nav-option" onclick="showSettings(); closeSidebar();">
@@ -1166,15 +1596,94 @@
             </div>
         </section>
 
+        <!-- Stats Section -->
+        <section class="stats-section" id="statsSection">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalProducts">0</div>
+                    <div class="stat-label">منتج</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalStores">0</div>
+                    <div class="stat-label">متجر</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalFavorites">0</div>
+                    <div class="stat-label">مفضل</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalCart">0</div>
+                    <div class="stat-label">بالسلة</div>
+                </div>
+            </div>
+        </section>
+
         <!-- Products Section -->
         <section class="products-section" id="productsSection">
             <div class="section-header">
-                <h2 class="section-title">🌟 المنتجات المميزة</h2>
-                <p class="section-subtitle">اكتشف أحدث وأفضل المنتجات من متاجرنا المختارة</p>
+                <div>
+                    <h2 class="section-title">🌟 المنتجات المميزة</h2>
+                    <p class="section-subtitle">اكتشف أحدث وأفضل المنتجات من متاجرنا المختارة</p>
+                </div>
+                <button class="view-all-btn" onclick="showAllProducts()">عرض الكل</button>
             </div>
             
             <div class="products-grid" id="productsGrid">
                 <!-- المنتجات ستُحمل هنا ديناميكياً -->
+            </div>
+        </section>
+
+        <!-- Stores Section -->
+        <section class="stores-section" id="storesSection" style="display: none;">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">🏪 متاجرنا المميزة</h2>
+                    <p class="section-subtitle">تصفح مجموعة متنوعة من المتاجر المحلية والعالمية</p>
+                </div>
+                <button class="view-all-btn" onclick="showProducts()">المنتجات</button>
+            </div>
+            
+            <div class="stores-grid" id="storesGrid">
+                <!-- المتاجر ستُحمل هنا ديناميكياً -->
+            </div>
+        </section>
+
+        <!-- Favorites Section -->
+        <section class="favorites-section" id="favoritesSection" style="display: none;">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">💖 المفضلة</h2>
+                    <p class="section-subtitle">المنتجات التي أضفتها إلى قائمة المفضلة</p>
+                </div>
+                <button class="view-all-btn" onclick="clearFavorites()">مسح الكل</button>
+            </div>
+            
+            <div class="products-grid" id="favoritesGrid">
+                <!-- المنتجات المفضلة ستُحمل هنا -->
+            </div>
+        </section>
+
+        <!-- Cart Section -->
+        <section class="cart-section" id="cartSection" style="display: none;">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">🛒 سلة التسوق</h2>
+                    <p class="section-subtitle">المنتجات التي أضفتها إلى سلة التسوق</p>
+                </div>
+                <button class="view-all-btn" onclick="clearCart()">مسح الكل</button>
+            </div>
+            
+            <div id="cartItems">
+                <!-- عناصر السلة ستُحمل هنا -->
+            </div>
+            
+            <div id="cartTotal" style="display: none; text-align: center; margin-top: var(--space-5); padding: var(--space-4); background: var(--glass); border-radius: var(--radius-xl); border: 1px solid var(--glass-border);">
+                <div style="font-size: var(--font-lg); font-weight: 700; color: var(--primary-solid);">المجموع الكلي</div>
+                <div style="font-size: var(--font-2xl); font-weight: 800; color: var(--text-primary); margin: var(--space-2) 0;" id="totalAmount">0 د.ع</div>
+                <button class="submit-btn" onclick="checkout()">
+                    <i class="fas fa-credit-card"></i>
+                    إتمام الشراء
+                </button>
             </div>
         </section>
     </main>
@@ -1182,7 +1691,7 @@
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <div class="nav-container">
-            <div class="nav-item active" onclick="goToHome()">
+            <div class="nav-item active" onclick="showProducts()">
                 <i class="fas fa-home nav-icon"></i>
                 <span class="nav-label">الرئيسية</span>
             </div>
@@ -1193,10 +1702,12 @@
             <div class="nav-item" onclick="showFavorites()">
                 <i class="fas fa-heart nav-icon"></i>
                 <span class="nav-label">المفضلة</span>
+                <span class="badge" id="favoritesNavCount">0</span>
             </div>
-            <div class="nav-item" onclick="createNewStore()">
-                <i class="fas fa-plus nav-icon"></i>
-                <span class="nav-label">إضافة</span>
+            <div class="nav-item" onclick="showCart()">
+                <i class="fas fa-shopping-cart nav-icon"></i>
+                <span class="nav-label">السلة</span>
+                <span class="badge" id="cartNavCount">0</span>
             </div>
         </div>
     </nav>
@@ -1336,12 +1847,17 @@
         
         let supabase;
         let allProducts = [];
+        let allStores = [];
+        let userStores = [];
         let filteredProducts = [];
+        let favorites = [];
+        let cart = [];
         let selectedIcon = 'fas fa-store';
         let selectedColor = 'primary';
         let currentFilters = {
             category: 'all'
         };
+        let currentView = 'products';
 
         // تهيئة التطبيق
         document.addEventListener('DOMContentLoaded', function() {
@@ -1359,7 +1875,10 @@
                     console.warn('⚠️ Supabase غير متاح');
                 }
 
-                // تحميل البيانات
+                // تحميل البيانات المحفوظة محلياً
+                loadLocalData();
+
+                // تحميل البيانات من قاعدة البيانات
                 await loadAllData();
 
                 // تهيئة الواجهة
@@ -1377,18 +1896,100 @@
             }
         }
 
+        // تحميل البيانات المحفوظة محلياً
+        function loadLocalData() {
+            favorites = JSON.parse(localStorage.getItem('clashy_favorites') || '[]');
+            cart = JSON.parse(localStorage.getItem('clashy_cart') || '[]');
+            userStores = JSON.parse(localStorage.getItem('clashy_user_stores') || '[]');
+            
+            // تحميل إعداد الوضع
+            const savedTheme = localStorage.getItem('clashy_theme') || 'dark';
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeUI();
+        }
+
+        // حفظ البيانات محلياً
+        function saveLocalData() {
+            localStorage.setItem('clashy_favorites', JSON.stringify(favorites));
+            localStorage.setItem('clashy_cart', JSON.stringify(cart));
+            localStorage.setItem('clashy_user_stores', JSON.stringify(userStores));
+        }
+
         // تحميل جميع البيانات
         async function loadAllData() {
             try {
                 await Promise.allSettled([
+                    loadStoresData(),
                     loadProductsFromStores()
                 ]);
                 
-                displayProducts();
+                updateAllDisplays();
+                updateStats();
                 
             } catch (error) {
                 console.error('❌ خطأ في تحميل البيانات:', error);
                 loadFallbackData();
+            }
+        }
+
+        // تحميل بيانات المتاجر
+        async function loadStoresData() {
+            try {
+                allStores = [];
+
+                // إضافة المتاجر الافتراضية
+                const defaultStores = [
+                    {
+                        id: 'alhajami',
+                        name: 'محلات الحجامي',
+                        description: 'أجود أنواع الشالات والطرحات والمنسوجات التركية الأصلية',
+                        url: './alhajami.html',
+                        icon: 'fas fa-user-tie',
+                        color: 'textiles',
+                        category: 'textiles',
+                        available: true,
+                        type: 'default'
+                    },
+                    {
+                        id: 'ghadeer',
+                        name: 'مكتب الغدير',
+                        description: 'الهواتف والإكسسوارات والصيرفة - أحدث الهواتف الذكية',
+                        url: './Al Ghadeer Office.html',
+                        icon: 'fas fa-mobile-alt',
+                        color: 'electronics',
+                        category: 'electronics',
+                        available: true,
+                        type: 'default'
+                    }
+                ];
+
+                allStores.push(...defaultStores);
+
+                // إضافة المتاجر المُنشأة من قبل المستخدم
+                if (supabase) {
+                    const { data, error } = await supabase
+                        .from('stores')
+                        .select('*')
+                        .order('created_at', { ascending: false });
+                    
+                    if (!error && data) {
+                        allStores.push(...data.map(store => ({
+                            ...store,
+                            type: 'database'
+                        })));
+                    }
+                }
+
+                // إضافة المتاجر المحلية
+                allStores.push(...userStores.map(store => ({
+                    ...store,
+                    type: 'local'
+                })));
+
+                console.log(`✅ تم تحميل ${allStores.length} متجر`);
+                
+            } catch (error) {
+                console.error('❌ خطأ في تحميل المتاجر:', error);
             }
         }
 
@@ -1397,7 +1998,6 @@
             try {
                 allProducts = [];
                 
-                // تحميل منتجات من مختلف المتاجر
                 await Promise.allSettled([
                     loadAlhajamiProducts(),
                     loadGhadeerProducts(),
@@ -1495,7 +2095,8 @@
         // بيانات احتياطية
         function loadFallbackData() {
             loadFallbackProducts();
-            displayProducts();
+            updateAllDisplays();
+            updateStats();
         }
 
         function loadFallbackProducts() {
@@ -1570,6 +2171,14 @@
             filteredProducts = [...allProducts];
         }
 
+        // تحديث جميع العروض
+        function updateAllDisplays() {
+            displayProducts();
+            displayStores();
+            displayFavorites();
+            displayCart();
+        }
+
         // عرض المنتجات
         function displayProducts() {
             const productsGrid = document.getElementById('productsGrid');
@@ -1595,6 +2204,9 @@
             
             const firstImage = images[0] || 'https://via.placeholder.com/200x150/8B5CF6/white?text=منتج';
             const price = parseInt(product.price || 0);
+            const isFavorited = favorites.includes(product.id);
+            const heartIcon = isFavorited ? 'fas fa-heart' : 'far fa-heart';
+            const heartColor = isFavorited ? 'color: var(--error-solid);' : '';
             
             return `
                 <div class="product-card fade-in-up" onclick="openProduct('${product.id}', '${product.store_url}')">
@@ -1602,14 +2214,17 @@
                         <img src="${firstImage}" alt="${product.name}" class="product-image" loading="lazy">
                         <div class="product-store-badge">${product.store_name}</div>
                         <div class="product-price-badge">${price.toLocaleString()} د.ع</div>
+                        <div style="position: absolute; top: var(--space-2); right: 30px; background: rgba(255,255,255,0.9); border-radius: var(--radius-full); width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 3;" onclick="event.stopPropagation(); toggleFavorite('${product.id}')">
+                            <i class="${heartIcon}" style="font-size: var(--font-xs); ${heartColor}"></i>
+                        </div>
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">${product.name}</h3>
                         <p class="product-description">${product.description}</p>
                         <div class="product-actions">
-                            <button class="product-btn primary" onclick="event.stopPropagation(); viewProductDetails('${product.id}')">
-                                <i class="fas fa-eye"></i>
-                                عرض
+                            <button class="product-btn primary" onclick="event.stopPropagation(); addToCart('${product.id}')">
+                                <i class="fas fa-cart-plus"></i>
+                                إضافة
                             </button>
                             <button class="product-btn secondary" onclick="event.stopPropagation(); openStore('${product.store_id}')">
                                 <i class="fas fa-store"></i>
@@ -1621,9 +2236,227 @@
             `;
         }
 
+        // عرض المتاجر
+        function displayStores() {
+            const storesGrid = document.getElementById('storesGrid');
+            
+            if (allStores.length === 0) {
+                storesGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: var(--space-8);">
+                        <i class="fas fa-store" style="font-size: var(--font-3xl); color: var(--text-muted); margin-bottom: var(--space-3);"></i>
+                        <h3 style="color: var(--text-secondary); margin-bottom: var(--space-2); font-size: var(--font-base);">لا توجد متاجر</h3>
+                        <p style="color: var(--text-muted); font-size: var(--font-sm);">لم يتم العثور على متاجر</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            storesGrid.innerHTML = allStores.map(store => createStoreCard(store)).join('');
+        }
+
+        // إنشاء بطاقة متجر
+        function createStoreCard(store) {
+            const colorClass = store.color || store.category || 'primary';
+            
+            return `
+                <div class="store-card fade-in-up" onclick="openStore('${store.id}')">
+                    <div class="store-header ${colorClass}">
+                        <i class="${store.icon} store-icon"></i>
+                    </div>
+                    <div class="store-content">
+                        <h3 class="store-name">${store.name}</h3>
+                        <p class="store-description">${store.description}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // عرض المفضلة
+        function displayFavorites() {
+            const favoritesGrid = document.getElementById('favoritesGrid');
+            const favoriteProducts = allProducts.filter(product => favorites.includes(product.id));
+            
+            if (favoriteProducts.length === 0) {
+                favoritesGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-heart"></i>
+                        <h3>لا توجد منتجات مفضلة</h3>
+                        <p>أضف منتجات إلى قائمة المفضلة لتظهر هنا</p>
+                        <a href="#" class="empty-state-btn" onclick="showProducts()">
+                            <i class="fas fa-shopping-bag"></i>
+                            تصفح المنتجات
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+            
+            favoritesGrid.innerHTML = favoriteProducts.map(product => createProductCard(product)).join('');
+        }
+
+        // عرض السلة
+        function displayCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>سلة التسوق فارغة</h3>
+                        <p>أضف منتجات إلى السلة لتظهر هنا</p>
+                        <a href="#" class="empty-state-btn" onclick="showProducts()">
+                            <i class="fas fa-shopping-bag"></i>
+                            تصفح المنتجات
+                        </a>
+                    </div>
+                `;
+                cartTotal.style.display = 'none';
+                return;
+            }
+
+            cartItems.innerHTML = cart.map(item => createCartItem(item)).join('');
+            
+            // حساب المجموع الكلي
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('totalAmount').textContent = total.toLocaleString() + ' د.ع';
+            cartTotal.style.display = 'block';
+        }
+
+        // إنشاء عنصر السلة
+        function createCartItem(item) {
+            const images = Array.isArray(item.images) ? item.images : 
+                          (item.images ? [item.images] : ['https://via.placeholder.com/60x60/8B5CF6/white?text=منتج']);
+            const firstImage = images[0] || 'https://via.placeholder.com/60x60/8B5CF6/white?text=منتج';
+            
+            return `
+                <div class="cart-item">
+                    <img src="${firstImage}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">${parseInt(item.price).toLocaleString()} د.ع</div>
+                        <div class="cart-item-quantity">
+                            <button class="quantity-btn" onclick="updateQuantity('${item.id}', -1)">-</button>
+                            <span class="quantity-display">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="cart-item-remove" onclick="removeFromCart('${item.id}')">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                </div>
+            `;
+        }
+
+        // تبديل المفضلة
+        function toggleFavorite(productId) {
+            const index = favorites.indexOf(productId);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                showNotification('💔 تم إزالة المنتج من المفضلة');
+            } else {
+                favorites.push(productId);
+                showNotification('❤️ تم إضافة المنتج للمفضلة');
+            }
+            
+            saveLocalData();
+            updateAllDisplays();
+            updateStats();
+        }
+
+        // إضافة للسلة
+        function addToCart(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+                showNotification('📦 تم زيادة الكمية في السلة');
+            } else {
+                cart.push({...product, quantity: 1});
+                showNotification('🛒 تم إضافة المنتج للسلة');
+            }
+
+            saveLocalData();
+            updateAllDisplays();
+            updateStats();
+        }
+
+        // تحديث الكمية
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (!item) return;
+
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                removeFromCart(productId);
+                return;
+            }
+
+            saveLocalData();
+            updateAllDisplays();
+            updateStats();
+            showNotification('📦 تم تحديث الكمية');
+        }
+
+        // إزالة من السلة
+        function removeFromCart(productId) {
+            const index = cart.findIndex(item => item.id === productId);
+            if (index > -1) {
+                cart.splice(index, 1);
+                saveLocalData();
+                updateAllDisplays();
+                updateStats();
+                showNotification('🗑️ تم إزالة المنتج من السلة');
+            }
+        }
+
+        // مسح المفضلة
+        function clearFavorites() {
+            if (favorites.length === 0) {
+                showNotification('⚠️ قائمة المفضلة فارغة بالفعل', 'warning');
+                return;
+            }
+            
+            favorites = [];
+            saveLocalData();
+            updateAllDisplays();
+            updateStats();
+            showNotification('🗑️ تم مسح جميع المنتجات من المفضلة');
+        }
+
+        // مسح السلة
+        function clearCart() {
+            if (cart.length === 0) {
+                showNotification('⚠️ سلة التسوق فارغة بالفعل', 'warning');
+                return;
+            }
+            
+            cart = [];
+            saveLocalData();
+            updateAllDisplays();
+            updateStats();
+            showNotification('🗑️ تم مسح جميع المنتجات من السلة');
+        }
+
+        // إتمام الشراء
+        function checkout() {
+            if (cart.length === 0) {
+                showNotification('⚠️ السلة فارغة', 'warning');
+                return;
+            }
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const message = encodeURIComponent(`السلام عليكم، أريد شراء المنتجات التالية من كلاشي:\n\n${cart.map(item => `• ${item.name} - الكمية: ${item.quantity} - السعر: ${parseInt(item.price).toLocaleString()} د.ع`).join('\n')}\n\nالمجموع الكلي: ${total.toLocaleString()} د.ع`);
+            
+            window.open(`https://wa.me/9647813798636?text=${message}`, '_blank');
+            showNotification('📱 تم فتح واتساب لإتمام الشراء');
+        }
+
         // فتح منتج
         function openProduct(productId, storeUrl) {
-            if (storeUrl) {
+            if (storeUrl && storeUrl !== 'undefined') {
                 showLoadingOverlay();
                 setTimeout(() => {
                     window.location.href = storeUrl;
@@ -1635,26 +2468,14 @@
 
         // فتح متجر
         function openStore(storeId) {
-            if (storeId === 'alhajami') {
+            const store = allStores.find(s => s.id === storeId);
+            if (store && store.url && store.url !== 'undefined') {
                 showLoadingOverlay();
                 setTimeout(() => {
-                    window.location.href = './alhajami.html';
-                }, 800);
-            } else if (storeId === 'ghadeer') {
-                showLoadingOverlay();
-                setTimeout(() => {
-                    window.location.href = './Al Ghadeer Office.html';
+                    window.location.href = store.url;
                 }, 800);
             } else {
                 showNotification('⚠️ المتجر غير متاح حالياً', 'warning');
-            }
-        }
-
-        // عرض تفاصيل المنتج
-        function viewProductDetails(productId) {
-            const product = allProducts.find(p => p.id === productId);
-            if (product) {
-                showNotification(`📦 ${product.name} - ${product.store_name}`);
             }
         }
 
@@ -1676,14 +2497,13 @@
             }
             
             displayProducts();
+            updateStats();
         }
 
         function updateFilterUI(filterType, value) {
-            // إزالة التحديد من جميع الخيارات في نفس المجموعة
             document.querySelectorAll(`[onclick*="filterBy${filterType.charAt(0).toUpperCase() + filterType.slice(1)}"]`)
                 .forEach(el => el.classList.remove('active'));
             
-            // إضافة التحديد للخيار الحالي
             document.querySelector(`[onclick*="filterBy${filterType.charAt(0).toUpperCase() + filterType.slice(1)}('${value}')"]`)
                 ?.classList.add('active');
         }
@@ -1714,26 +2534,62 @@
             }
             
             displayProducts();
+            updateStats();
         }
 
         function focusSearch() {
             document.getElementById('searchInput').focus();
         }
 
-        // التنقل
-        function goToHome() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        // التنقل والعرض
+        function showProducts() {
+            currentView = 'products';
+            hideAllSections();
+            document.getElementById('productsSection').style.display = 'block';
             updateActiveNavItem(0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function showStoresSection() {
-            showNotification('🏪 قسم المتاجر متاح في القائمة الجانبية');
+            currentView = 'stores';
+            hideAllSections();
+            document.getElementById('storesSection').style.display = 'block';
             updateActiveNavItem(1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function showFavorites() {
-            showNotification('💖 قسم المفضلة قريباً...');
+            currentView = 'favorites';
+            hideAllSections();
+            document.getElementById('favoritesSection').style.display = 'block';
             updateActiveNavItem(2);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showCart() {
+            currentView = 'cart';
+            hideAllSections();
+            document.getElementById('cartSection').style.display = 'block';
+            updateActiveNavItem(3);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function hideAllSections() {
+            document.getElementById('productsSection').style.display = 'none';
+            document.getElementById('storesSection').style.display = 'none';
+            document.getElementById('favoritesSection').style.display = 'none';
+            document.getElementById('cartSection').style.display = 'none';
+        }
+
+        function showAllProducts() {
+            currentFilters.category = 'all';
+            applyProductFilters();
+            updateFilterUI('category', 'all');
+            showProducts();
+        }
+
+        function goToHome() {
+            showProducts();
         }
 
         function updateActiveNavItem(index) {
@@ -1750,6 +2606,35 @@
 
         function closeSidebar() {
             document.getElementById('sidebar').classList.remove('open');
+        }
+
+        // تبديل الوضع
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('clashy_theme', newTheme);
+            
+            updateThemeUI();
+            showNotification(`🎨 تم التبديل إلى الوضع ${newTheme === 'dark' ? 'المظلم' : 'الفاتح'}`);
+        }
+
+        function updateThemeUI() {
+            const theme = document.body.getAttribute('data-theme');
+            const themeIcon = document.getElementById('themeIcon');
+            const themeSwitch = document.getElementById('themeSwitch');
+            const themeStatus = document.getElementById('themeStatus');
+            
+            if (theme === 'dark') {
+                themeIcon.className = 'fas fa-sun';
+                themeSwitch.classList.add('active');
+                themeStatus.textContent = 'وضع مظلم';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                themeSwitch.classList.remove('active');
+                themeStatus.textContent = 'وضع فاتح';
+            }
         }
 
         // إنشاء متجر جديد
@@ -1776,60 +2661,69 @@
             const submitBtn = document.getElementById('submitBtn');
             const originalText = submitBtn.innerHTML;
             
-            // تعطيل الزر وإظهار حالة التحميل
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
             
             try {
                 const formData = {
+                    id: Date.now().toString(),
                     name: document.getElementById('storeName').value.trim(),
                     description: document.getElementById('storeDescription').value.trim(),
                     url: document.getElementById('storeUrl').value.trim(),
                     icon: selectedIcon,
                     color: selectedColor,
+                    category: selectedColor,
+                    available: true,
                     created_at: new Date().toISOString()
                 };
 
-                // التحقق من صحة البيانات
                 if (!formData.name || !formData.description || !formData.url) {
                     throw new Error('جميع الحقول مطلوبة');
                 }
 
+                let saved = false;
+
                 if (supabase) {
-                    // حفظ في قاعدة البيانات
-                    const { data, error } = await supabase
-                        .from('stores')
-                        .insert([formData]);
+                    try {
+                        const { data, error } = await supabase
+                            .from('stores')
+                            .insert([formData]);
 
-                    if (error) {
-                        throw new Error(error.message);
+                        if (!error) {
+                            saved = true;
+                            showNotification('✅ تم حفظ المتجر في قاعدة البيانات بنجاح!');
+                        }
+                    } catch (dbError) {
+                        console.log('Database save failed, saving locally');
                     }
+                }
 
-                    showNotification('✅ تم حفظ المتجر في قاعدة البيانات بنجاح!');
-                } else {
-                    // حفظ محلياً
-                    const stores = JSON.parse(localStorage.getItem('clashy_stores') || '[]');
-                    stores.push({...formData, id: Date.now().toString()});
-                    localStorage.setItem('clashy_stores', JSON.stringify(stores));
-                    
+                if (!saved) {
+                    userStores.push(formData);
+                    saveLocalData();
                     showNotification('✅ تم حفظ المتجر محلياً!');
                 }
+
+                // إضافة المتجر الجديد إلى القائمة
+                allStores.push({...formData, type: saved ? 'database' : 'local'});
 
                 // إعادة تعيين النموذج وإغلاق المودال
                 document.getElementById('createStoreForm').reset();
                 closeModal('createStoreModal');
                 
-                // إعادة تحديد القيم الافتراضية
                 selectedIcon = 'fas fa-store';
                 selectedColor = 'primary';
                 document.querySelector('.icon-option[data-icon="fas fa-store"]').classList.add('selected');
                 document.querySelector('.color-option[data-color="primary"]').classList.add('selected');
 
+                // تحديث العرض
+                updateAllDisplays();
+                updateStats();
+
             } catch (error) {
                 console.error('❌ خطأ في حفظ المتجر:', error);
                 showNotification(`❌ خطأ في الحفظ: ${error.message}`, 'error');
             } finally {
-                // إعادة تفعيل الزر
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
             }
@@ -1851,16 +2745,19 @@
         }
 
         function viewMyStores() {
-            showNotification('🏪 قسم متاجري قريباً...');
-        }
-
-        function showCart() {
-            showNotification('🛒 سلة التسوق قريباً...');
+            const myStores = allStores.filter(store => store.type === 'local' || store.type === 'database');
+            if (myStores.length === 0) {
+                showNotification('📝 لم تقم بإنشاء أي متاجر بعد', 'warning');
+                return;
+            }
+            
+            showNotification(`🏪 لديك ${myStores.length} متجر مُنشأ`);
+            showStoresSection();
         }
 
         // الإعدادات والدعم
         function showSettings() {
-            showNotification('⚙️ الإعدادات قريباً...');
+            showNotification('⚙️ الإعدادات المتقدمة قريباً...');
         }
 
         function showContact() {
@@ -1868,17 +2765,40 @@
         }
 
         function showHelp() {
-            showNotification('❓ قسم المساعدة قريباً...');
+            showNotification('❓ للمساعدة: تواصل معنا عبر واتساب');
         }
 
         function showAbout() {
-            showNotification('ℹ️ كلاشي - السوق الإلكتروني الشامل');
+            showNotification('ℹ️ كلاشي v2.0 - السوق الإلكتروني الشامل');
         }
 
         function openWhatsApp() {
             const message = encodeURIComponent('السلام عليكم، أريد الاستفسار عن كلاشي - السوق الإلكتروني الشامل 🛍️');
             window.open(`https://wa.me/9647813798636?text=${message}`, '_blank');
             showNotification('📱 تم فتح واتساب...');
+        }
+
+        // تحديث الإحصائيات
+        function updateStats() {
+            document.getElementById('totalProducts').textContent = filteredProducts.length;
+            document.getElementById('totalStores').textContent = allStores.length;
+            document.getElementById('totalFavorites').textContent = favorites.length;
+            document.getElementById('totalCart').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            // تحديث العدادات في الشريط الجانبي والتنقل السفلي
+            document.getElementById('storesCount').textContent = allStores.length;
+            document.getElementById('favoritesCount').textContent = favorites.length;
+            document.getElementById('cartCount').textContent = cart.length;
+            document.getElementById('favoritesNavCount').textContent = favorites.length;
+            document.getElementById('cartNavCount').textContent = cart.length;
+            
+            // إخفاء العدادات إذا كانت صفر
+            const badges = ['storesCount', 'favoritesCount', 'cartCount', 'favoritesNavCount', 'cartNavCount'];
+            badges.forEach(badgeId => {
+                const badge = document.getElementById(badgeId);
+                const count = parseInt(badge.textContent);
+                badge.style.display = count > 0 ? 'flex' : 'none';
+            });
         }
 
         // التأثيرات والرسوم المتحركة
@@ -1898,7 +2818,6 @@
                 lastScroll = currentScroll;
             });
 
-            // تفعيل الرسوم المتحركة عند الظهور
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1917,13 +2836,6 @@
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
         }
-
-        // إغلاق المودال عند النقر خارجه
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('modal')) {
-                closeModal(e.target.id);
-            }
-        });
 
         // الأدوات المساعدة
         function showLoadingOverlay() {
@@ -1959,10 +2871,13 @@
 
         // التعامل مع النقر على العناصر
         document.addEventListener('click', function(e) {
-            // إغلاق الشريط الجانبي عند النقر خارجه
             const sidebar = document.getElementById('sidebar');
             if (!sidebar.contains(e.target) && !e.target.closest('.action-btn.menu') && sidebar.classList.contains('open')) {
                 closeSidebar();
+            }
+
+            if (e.target.classList.contains('modal')) {
+                closeModal(e.target.id);
             }
         });
 
@@ -2005,10 +2920,12 @@
 
         // تهيئة إضافية عند تحميل الصفحة
         window.addEventListener('load', () => {
-            console.log('🚀 كلاشي PWA جاهز للعمل!');
-            console.log('📱 السوق الإلكتروني الشامل');
+            console.log('🚀 كلاشي PWA جاهز للعمل بشكل كامل!');
+            console.log('📱 السوق الإلكتروني الشامل - الإصدار 2.0');
             console.log('🛍️ منتجات من متاجر متنوعة');
             console.log('🏪 إدارة متقدمة للمتاجر');
+            console.log('❤️ نظام المفضلة والسلة');
+            console.log('🌓 تبديل الوضع المظلم/الفاتح');
             console.log('🔍 بحث وفلترة ذكية');
             console.log('📱 تطبيق PWA قابل للتثبيت');
             console.log('☁️ قاعدة بيانات سحابية');
@@ -2025,7 +2942,7 @@
             console.log('📱 التطبيق قابل للتثبيت');
         });
 
-        // تسجيل Service Worker للعمل بدون إنترنت
+        // تسجيل Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
@@ -2036,6 +2953,16 @@
                 }
             });
         }
+
+        // تحديث البيانات بشكل دوري
+        setInterval(async () => {
+            try {
+                await loadAllData();
+                console.log('🔄 تم تحديث البيانات تلقائياً');
+            } catch (error) {
+                console.error('❌ خطأ في التحديث التلقائي:', error);
+            }
+        }, 300000); // كل 5 دقائق
     </script>
 </body>
 </html>
