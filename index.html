@@ -1501,6 +1501,10 @@
                     <span>سلة التسوق</span>
                     <span class="badge" id="cartCount">0</span>
                 </div>
+                <div class="nav-option" onclick="refreshData(); closeSidebar();" style="border: 1px solid var(--success-solid);">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>تحديث البيانات</span>
+                </div>
             </div>
 
             <!-- Store Management -->
@@ -1886,7 +1890,7 @@
                 setupScrollEffects();
                 
                 hideLoadingOverlay();
-                showNotification('🎉 مرحباً بك في كلاشي - السوق الإلكتروني الشامل!');
+                showNotification('🎉 مرحباً بك في كلاشي - تم إصلاح مشاكل الصور والروابط!');
                 
             } catch (error) {
                 console.error('❌ خطأ في تهيئة التطبيق:', error);
@@ -2022,7 +2026,7 @@
                     .from('products')
                     .select('*')
                     .order('created_at', { ascending: false })
-                    .limit(10);
+                    .limit(20);
                 
                 if (!error && data) {
                     const alhajamiProducts = data.map(product => ({
@@ -2030,7 +2034,11 @@
                         store_id: 'alhajami',
                         store_name: 'محلات الحجامي',
                         store_url: './alhajami.html',
-                        category: product.category || 'textiles'
+                        category: product.category || 'textiles',
+                        // إصلاح مشكلة الصور
+                        images: product.images || product.image_url || product.image || ['https://via.placeholder.com/200x150/8B5CF6/white?text=محلات+الحجامي'],
+                        // التأكد من وجود السعر
+                        price: product.price || product.cost || 0
                     }));
                     allProducts.push(...alhajamiProducts);
                     console.log(`📦 تم تحميل ${alhajamiProducts.length} منتج من الحجامي`);
@@ -2049,7 +2057,7 @@
                     .from('ghadeer_products')
                     .select('*')
                     .order('created_at', { ascending: false })
-                    .limit(10);
+                    .limit(20);
                 
                 if (!error && data) {
                     const ghadeerProducts = data.map(product => ({
@@ -2057,7 +2065,11 @@
                         store_id: 'ghadeer',
                         store_name: 'مكتب الغدير',
                         store_url: './Al Ghadeer Office.html',
-                        category: product.category || 'electronics'
+                        category: product.category || 'electronics',
+                        // إصلاح مشكلة الصور
+                        images: product.images || product.image_url || product.image || ['https://via.placeholder.com/200x150/06B6D4/white?text=مكتب+الغدير'],
+                        // التأكد من وجود السعر
+                        price: product.price || product.cost || 0
                     }));
                     allProducts.push(...ghadeerProducts);
                     console.log(`📦 تم تحميل ${ghadeerProducts.length} منتج من الغدير`);
@@ -2076,13 +2088,19 @@
                     .from('clashy_products')
                     .select('*')
                     .order('created_at', { ascending: false })
-                    .limit(10);
+                    .limit(20);
                 
                 if (!error && data) {
                     const dbProducts = data.map(product => ({
                         ...product,
                         store_name: product.store_name || 'متجر كلاشي',
-                        category: product.category || 'general'
+                        category: product.category || 'general',
+                        // إصلاح مشكلة الصور
+                        images: product.images || product.image_url || product.image || ['https://via.placeholder.com/200x150/F59E0B/white?text=' + encodeURIComponent(product.store_name || 'كلاشي')],
+                        // التأكد من وجود السعر
+                        price: product.price || product.cost || 0,
+                        // إصلاح رابط المتجر
+                        store_url: product.store_url || '#'
                     }));
                     allProducts.push(...dbProducts);
                     console.log(`📦 تم تحميل ${dbProducts.length} منتج من قاعدة البيانات العامة`);
@@ -2199,34 +2217,68 @@
 
         // إنشاء بطاقة منتج
         function createProductCard(product) {
-            const images = Array.isArray(product.images) ? product.images : 
-                          (product.images ? [product.images] : ['https://via.placeholder.com/200x150/8B5CF6/white?text=منتج']);
+            // إصلاح مشكلة الصور - دعم تنسيقات مختلفة
+            let images = [];
+            
+            if (product.images) {
+                if (Array.isArray(product.images)) {
+                    images = product.images;
+                } else if (typeof product.images === 'string') {
+                    try {
+                        // محاولة تحليل JSON إذا كان نص
+                        images = JSON.parse(product.images);
+                        if (!Array.isArray(images)) {
+                            images = [product.images];
+                        }
+                    } catch {
+                        // إذا فشل التحليل، استخدم النص كرابط واحد
+                        images = [product.images];
+                    }
+                }
+            } else if (product.image_url) {
+                images = [product.image_url];
+            } else if (product.image) {
+                images = [product.image];
+            }
+
+            // إذا لم توجد صور، استخدم صورة افتراضية حسب المتجر
+            if (images.length === 0 || !images[0] || images[0] === 'undefined') {
+                const storeColors = {
+                    'alhajami': '8B5CF6',
+                    'ghadeer': '06B6D4',
+                    'default': 'F59E0B'
+                };
+                const color = storeColors[product.store_id] || storeColors.default;
+                const storeName = encodeURIComponent(product.store_name || 'منتج');
+                images = [`https://via.placeholder.com/200x150/${color}/white?text=${storeName}`];
+            }
             
             const firstImage = images[0] || 'https://via.placeholder.com/200x150/8B5CF6/white?text=منتج';
-            const price = parseInt(product.price || 0);
+            const price = parseInt(product.price || product.cost || 0);
             const isFavorited = favorites.includes(product.id);
             const heartIcon = isFavorited ? 'fas fa-heart' : 'far fa-heart';
             const heartColor = isFavorited ? 'color: var(--error-solid);' : '';
             
             return `
-                <div class="product-card fade-in-up" onclick="openProduct('${product.id}', '${product.store_url}')">
+                <div class="product-card fade-in-up" onclick="openProduct('${product.id}', '${product.store_url || '#'}')">
                     <div class="product-image-container">
-                        <img src="${firstImage}" alt="${product.name}" class="product-image" loading="lazy">
-                        <div class="product-store-badge">${product.store_name}</div>
+                        <img src="${firstImage}" alt="${product.name || 'منتج'}" class="product-image" loading="lazy" 
+                             onerror="this.src='https://via.placeholder.com/200x150/8B5CF6/white?text=منتج'">
+                        <div class="product-store-badge">${product.store_name || 'متجر'}</div>
                         <div class="product-price-badge">${price.toLocaleString()} د.ع</div>
                         <div style="position: absolute; top: var(--space-2); right: 30px; background: rgba(255,255,255,0.9); border-radius: var(--radius-full); width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 3;" onclick="event.stopPropagation(); toggleFavorite('${product.id}')">
                             <i class="${heartIcon}" style="font-size: var(--font-xs); ${heartColor}"></i>
                         </div>
                     </div>
                     <div class="product-content">
-                        <h3 class="product-name">${product.name}</h3>
-                        <p class="product-description">${product.description}</p>
+                        <h3 class="product-name">${product.name || 'منتج بدون اسم'}</h3>
+                        <p class="product-description">${product.description || 'لا يوجد وصف'}</p>
                         <div class="product-actions">
                             <button class="product-btn primary" onclick="event.stopPropagation(); addToCart('${product.id}')">
                                 <i class="fas fa-cart-plus"></i>
                                 إضافة
                             </button>
-                            <button class="product-btn secondary" onclick="event.stopPropagation(); openStore('${product.store_id}')">
+                            <button class="product-btn secondary" onclick="event.stopPropagation(); openStore('${product.store_id || 'default'}')">
                                 <i class="fas fa-store"></i>
                                 المتجر
                             </button>
@@ -2456,27 +2508,96 @@
 
         // فتح منتج
         function openProduct(productId, storeUrl) {
-            if (storeUrl && storeUrl !== 'undefined') {
-                showLoadingOverlay();
-                setTimeout(() => {
-                    window.location.href = storeUrl;
-                }, 800);
-            } else {
-                showNotification('⚠️ رابط المتجر غير متاح', 'warning');
+            // البحث عن المنتج في القائمة
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) {
+                showNotification('⚠️ المنتج غير موجود', 'warning');
+                return;
             }
+
+            // إذا كان الرابط متاح وصحيح
+            if (storeUrl && storeUrl !== 'undefined' && storeUrl !== '#' && storeUrl !== '') {
+                // التحقق من وجود الملف قبل الانتقال
+                showLoadingOverlay();
+                
+                // محاولة فتح الرابط
+                const link = document.createElement('a');
+                link.href = storeUrl;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                
+                // إذا كان الرابط داخلي، افتحه في نفس النافذة
+                if (storeUrl.startsWith('./') || storeUrl.startsWith('/') || !storeUrl.includes('://')) {
+                    setTimeout(() => {
+                        try {
+                            window.location.href = storeUrl;
+                        } catch (error) {
+                            hideLoadingOverlay();
+                            showNotification('⚠️ لا يمكن فتح صفحة المتجر حالياً', 'warning');
+                            // عرض تفاصيل المنتج بدلاً من ذلك
+                            showProductDetails(product);
+                        }
+                    }, 800);
+                } else {
+                    // رابط خارجي
+                    hideLoadingOverlay();
+                    window.open(storeUrl, '_blank');
+                }
+            } else {
+                // إذا لم يكن هناك رابط صالح، عرض تفاصيل المنتج
+                showProductDetails(product);
+            }
+        }
+
+        // عرض تفاصيل المنتج
+        function showProductDetails(product) {
+            const price = parseInt(product.price || product.cost || 0);
+            showNotification(`📦 ${product.name || 'منتج'} - ${price.toLocaleString()} د.ع من ${product.store_name || 'متجر'}`);
+            
+            // يمكن إضافة مودال لعرض تفاصيل أكثر هنا
+            console.log('تفاصيل المنتج:', product);
         }
 
         // فتح متجر
         function openStore(storeId) {
+            // البحث عن المتجر في القائمة
             const store = allStores.find(s => s.id === storeId);
-            if (store && store.url && store.url !== 'undefined') {
-                showLoadingOverlay();
-                setTimeout(() => {
-                    window.location.href = store.url;
-                }, 800);
-            } else {
-                showNotification('⚠️ المتجر غير متاح حالياً', 'warning');
+            
+            if (!store) {
+                showNotification('⚠️ المتجر غير موجود', 'warning');
+                return;
             }
+
+            // التحقق من صحة الرابط
+            if (store.url && store.url !== 'undefined' && store.url !== '#' && store.url !== '') {
+                showLoadingOverlay();
+                
+                // إذا كان الرابط داخلي
+                if (store.url.startsWith('./') || store.url.startsWith('/') || !store.url.includes('://')) {
+                    setTimeout(() => {
+                        try {
+                            window.location.href = store.url;
+                        } catch (error) {
+                            hideLoadingOverlay();
+                            showNotification('⚠️ لا يمكن فتح المتجر حالياً', 'warning');
+                            showStoreInfo(store);
+                        }
+                    }, 800);
+                } else {
+                    // رابط خارجي
+                    hideLoadingOverlay();
+                    window.open(store.url, '_blank');
+                }
+            } else {
+                // إذا لم يكن هناك رابط صالح
+                showStoreInfo(store);
+            }
+        }
+
+        // عرض معلومات المتجر
+        function showStoreInfo(store) {
+            showNotification(`🏪 ${store.name || 'متجر'} - ${store.description || 'لا يوجد وصف'}`);
+            console.log('معلومات المتجر:', store);
         }
 
         // الفلترة
@@ -2921,7 +3042,7 @@
         // تهيئة إضافية عند تحميل الصفحة
         window.addEventListener('load', () => {
             console.log('🚀 كلاشي PWA جاهز للعمل بشكل كامل!');
-            console.log('📱 السوق الإلكتروني الشامل - الإصدار 2.0');
+            console.log('📱 السوق الإلكتروني الشامل - الإصدار 2.1');
             console.log('🛍️ منتجات من متاجر متنوعة');
             console.log('🏪 إدارة متقدمة للمتاجر');
             console.log('❤️ نظام المفضلة والسلة');
@@ -2930,6 +3051,8 @@
             console.log('📱 تطبيق PWA قابل للتثبيت');
             console.log('☁️ قاعدة بيانات سحابية');
             console.log('🎨 تصميم عصري ومتجاوب');
+            console.log('🔧 تم إصلاح مشاكل الصور والروابط');
+            console.log('⚡ دعم كامل لجميع تنسيقات البيانات');
             console.log('📞 للدعم والتواصل: 07813798636');
         });
 
@@ -2954,10 +3077,29 @@
             });
         }
 
+        // إعادة تحميل البيانات
+        async function refreshData() {
+            showLoadingOverlay();
+            try {
+                // مسح البيانات الحالية
+                allProducts = [];
+                
+                // إعادة تحميل البيانات
+                await loadAllData();
+                
+                showNotification('🔄 تم تحديث البيانات بنجاح');
+            } catch (error) {
+                console.error('❌ خطأ في تحديث البيانات:', error);
+                showNotification('❌ فشل في تحديث البيانات', 'error');
+            } finally {
+                hideLoadingOverlay();
+            }
+        }
+
         // تحديث البيانات بشكل دوري
         setInterval(async () => {
             try {
-                await loadAllData();
+                await refreshData();
                 console.log('🔄 تم تحديث البيانات تلقائياً');
             } catch (error) {
                 console.error('❌ خطأ في التحديث التلقائي:', error);
